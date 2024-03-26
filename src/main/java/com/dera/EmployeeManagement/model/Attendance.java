@@ -32,4 +32,5 @@ public class Attendance extends BaseClass{
     @Column(name = "clock_out_time")
     private LocalTime clockOutTime;
 
+
 }

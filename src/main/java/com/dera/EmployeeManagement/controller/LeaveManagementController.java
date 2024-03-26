@@ -1,7 +1,8 @@
 package com.dera.EmployeeManagement.controller;
 
+import com.dera.EmployeeManagement.exceptions.LeaveRecordNotFoundException;
 import com.dera.EmployeeManagement.model.LeaveManagement;
-import com.dera.EmployeeManagement.pojo.ConfirmationForm;
+import com.dera.EmployeeManagement.dto.ConfirmationForm;
 import com.dera.EmployeeManagement.repositories.LeaveManagementRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -30,21 +30,6 @@ public class LeaveManagementController {
             return "leave";
         }
 
-//        @PostMapping("/createLeave")
-//        public String newLeaveRecord(LeaveManagement leave_record, Model model) {
-//            model.addAttribute("leave_record", new LeaveManagement());
-//
-//            // creating dynamic Employee ID
-//            Random random = new Random();
-//            Long randomNumber = 1000 + random.nextLong(9000);
-//            Long leave_Id = randomNumber;
-//            leave_record.setId(leave_Id);
-//
-//            // save the employee
-//            leaveManagementRepository.save(leave_record);
-//
-//            return "redirect:/leave";
-//        }
 @PostMapping("/createLeave")
 public String newLeaveRecord(@ModelAttribute("leaveManagement") LeaveManagement leave_record,
                              HttpServletRequest request,
@@ -52,37 +37,22 @@ public String newLeaveRecord(@ModelAttribute("leaveManagement") LeaveManagement 
                              Model model) {
     model.addAttribute("leave_record", new LeaveManagement());
     model.addAttribute("redirect", "/dashboard");
-
-    // creating dynamic Employee ID
     Random random = new Random();
     Long randomNumber = 1000 + random.nextLong(9000);
     Long leave_Id = randomNumber;
     leave_record.setId(leave_Id);
-
-    // save the employee
     leaveManagementRepository.save(leave_record);
-
-    // Determine the redirect target based on the source of the request
-//    if ("dashboard".equals(sourcePage)) {
-//        // If the form was submitted from the Dashboard page, redirect back to the dashboard
-//        return "redirect:/dashboard";
-//    } else {
-//        // Otherwise, redirect to the Leave Management page as before
-//        return "redirect:/leave";
-//    }
     String referer = request.getHeader("Referer");
+    System.out.println("ref " + referer);
 
-    // Logic to decide if you should redirect back to the Apply For Leave page
-    if (referer != null && !referer.contains("dashboard")) {
+    if (referer != null && !referer.contains("leave?openModal=addLeave")) {
         return "redirect:/leave"; // Adjust the redirect URL as necessary
     }
-
-    // Otherwise, redirect to a default location, such as the leave list page
     return "redirect:/dashboard";
 }
 
     @PostMapping("/updateLeave")
-        public String updateLeave(@ModelAttribute LeaveManagement leave_record, Model model) {
+        public String updateLeave(@ModelAttribute LeaveManagement leave_record, Model model) throws LeaveRecordNotFoundException {
             model.addAttribute("leave_record", new LeaveManagement());
             Optional<LeaveManagement> existingLeaveRecord = leaveManagementRepository.findById(leave_record.getId());
             if (existingLeaveRecord.isPresent()) {

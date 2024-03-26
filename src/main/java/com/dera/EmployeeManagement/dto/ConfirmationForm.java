@@ -1,4 +1,4 @@
-package com.dera.EmployeeManagement.pojo;
+package com.dera.EmployeeManagement.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

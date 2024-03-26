@@ -2,6 +2,7 @@ package com.dera.EmployeeManagement.controller;
 
 import com.dera.EmployeeManagement.model.Employee;
 import com.dera.EmployeeManagement.repositories.EmployeeRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +22,31 @@ public class UserLoginController {
         return "user_login";
     }
 
+//    @PostMapping("/user_login")
+//    public String processLogin(@ModelAttribute("user_login") Employee user_login, Model model) {
+//        Optional<Employee> employeeOptional = employeeRepository.findByEmployeeEmail(user_login.getEmployeeEmail());
+//        if (employeeOptional.isPresent()) {
+//            Employee employee = employeeOptional.get();
+//            if (employee.getEmployeePassword().equals(user_login.getEmployeePassword())) {
+//                // Redirect to a successful login page or dashboard
+//                return "redirect:/dashboard";
+//            } else {
+//                model.addAttribute("userLoginError", "Invalid password.");
+//                return "user_login";
+//            }
+//        } else {
+//            model.addAttribute("userLoginError", "No account found with that email.");
+//            return "user_login";
+//        }
+//    }
+
     @PostMapping("/user_login")
-    public String processLogin(@ModelAttribute("user_login") Employee user_login, Model model) {
+    public String processLogin(@ModelAttribute("user_login") Employee user_login, Model model, HttpSession session) {
         Optional<Employee> employeeOptional = employeeRepository.findByEmployeeEmail(user_login.getEmployeeEmail());
         if (employeeOptional.isPresent()) {
             Employee employee = employeeOptional.get();
             if (employee.getEmployeePassword().equals(user_login.getEmployeePassword())) {
-                // Redirect to a successful login page or dashboard
+                session.setAttribute("loggedInEmployee", employee); // Store employee in session
                 return "redirect:/dashboard";
             } else {
                 model.addAttribute("userLoginError", "Invalid password.");

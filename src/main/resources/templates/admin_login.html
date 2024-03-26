@@ -47,7 +47,7 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/employees}">Signup</a>
+                <a class="nav-link" th:href="@{/user_login}">User-Login</a>
             </li>
         </ul>
     </div>
@@ -59,7 +59,7 @@
             <div class="card">
                 <h1 class="text-center">Admin Login</h1>
                 <div class="card-body">
-                    <form th:action="@{/login}" th:object="${login}" method="POST">
+                    <form th:action="@{/admin_login}" th:object="${admin_login}" method="POST">
 
                         <div class="form-group">
                             <label for="employeeEmail">Employee Email</label>
@@ -68,6 +68,10 @@
                         <div class="form-group">
                             <label for="employeePassword">Password</label>
                             <input type="password" class="form-control" id="employeePassword" th:field="*{employeePassword}" placeholder="Password" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminToken">Admin Token</label>
+                            <input type="text" class="form-control" id="adminToken" name="adminToken" placeholder="Enter Admin Token" required/>
                         </div>
                         <div th:if="${loginError}" class="alert alert-danger" th:text="${loginError}"></div>
 

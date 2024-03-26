@@ -2,6 +2,7 @@ package com.dera.EmployeeManagement.controller;
 
 import com.dera.EmployeeManagement.model.Employee;
 import com.dera.EmployeeManagement.repositories.EmployeeRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +14,13 @@ public class DashboardController {
     private EmployeeRepository employeeRepository;
 
     @GetMapping("/dashboard")
-    public String showLoginForm(Model model) {
-        model.addAttribute("dashboard", new Employee()); // Note the change here
-        return "dashboard";
+    public String dashboard(HttpSession session, Model model) {
+        Employee loggedInEmployee = (Employee) session.getAttribute("loggedInEmployee");
+        if (loggedInEmployee != null) {
+            model.addAttribute("employee", loggedInEmployee);
+            return "dashboard";
+        } else {
+            return "redirect:/user_login";
+        }
     }
 }

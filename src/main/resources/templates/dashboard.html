@@ -36,6 +36,9 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+        h1{
+        font-size: 100px;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +50,7 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/employees}">Dashboard</a>
+                <a class="nav-link" th:href="@{/user_login}">Logout</a>
             </li>
         </ul>
     </div>
@@ -57,8 +60,13 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <h1 class="text-center">Welcome To Your Dashboard</h1>
+                <h1 class="text-center">Employee Dashboard</h1>
                 <div class="card-body">
+                    <h2>Welcome, <span th:text="${employee.employeeName}">Employee Name</span>!</h2>
+                    <p>Email: <span th:text="${employee.employeeEmail}">Employee Email</span></p>
+                    <p>Position: <span th:text="${employee.employeeRole+' Developer'}">Employee Position</span></p>
+                    <p>Salary: <span th:text="${employee.employeeSalary}">Employee Salary</span></p>
+                    <p>Gender: <span th:text="${employee.employeeGender}">Employee Gender</span></p>
                     <form th:action="@{/dashboard}" th:object="${dashboard}" method="POST">
                         <div class="container p-4">
                             <div class="head_section">
@@ -75,7 +83,7 @@
 
                                     </div>
                                     <div class="col">
-                                        <a href="#exampleModalToggle2" data-bs-toggle="modal" role="button"
+                                        <a href="attendance?openModal=addAttendance" data-bs-toggle="modal" role="button"
                                            style="text-decoration: none; color: white;">
                                             <div class="card bg-primary rounded">
                                                 <div class="card-body">
@@ -90,6 +98,12 @@
                         </div>
 
                     </form>
+<!--                    &lt;!&ndash; dashboard.html &ndash;&gt;-->
+<!--                    <h2>Welcome, <span th:text="${employee.employeeName}">Employee Name</span>!</h2>-->
+<!--                    <p>Email: <span th:text="${employee.employeeEmail}">Employee Email</span></p>-->
+<!--                    &lt;!&ndash; Add more details as needed &ndash;&gt;-->
+
+
                 </div>
             </div>
         </div>

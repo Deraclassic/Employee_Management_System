@@ -27,5 +27,13 @@ public class GlobalExceptionHandler {
         errorResponse.setErrorMessage(e.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }@ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorDetails> EntityNotFoundException(final EntityNotFoundException e){
+        ErrorDetails errorResponse = new ErrorDetails();
+        errorResponse.setTimeStamp(LocalDateTime.now());
+        errorResponse.setErrorDetails(String.valueOf(HttpStatus.BAD_REQUEST));
+        errorResponse.setErrorMessage(e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

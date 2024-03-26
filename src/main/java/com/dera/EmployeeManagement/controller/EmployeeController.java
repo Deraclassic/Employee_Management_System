@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import com.dera.EmployeeManagement.pojo.ConfirmationForm;
+import com.dera.EmployeeManagement.exceptions.EntityNotFoundException;
+import com.dera.EmployeeManagement.dto.ConfirmationForm;
 import com.dera.EmployeeManagement.model.Employee;
 import com.dera.EmployeeManagement.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class EmployeeController {
 
     // Insert employee data
     @PostMapping("/create")
-    public String newEmployee(Employee employee, Model model) {
+    public String newEmployee(Employee employee, Model model) throws EntityNotFoundException {
         model.addAttribute("employee", new Employee());
 
         // creating dynamic Employee ID
@@ -46,7 +47,7 @@ public class EmployeeController {
         return "redirect:/";
     }
     @PostMapping("/update")
-    public String updateEmployee(@ModelAttribute Employee employee, Model model) {
+    public String updateEmployee(@ModelAttribute Employee employee, Model model) throws EntityNotFoundException{
         model.addAttribute("employee", new Employee());
         Optional<Employee> existingEmployee = employeeRepository.findById(employee.getId());
         if (existingEmployee.isPresent()) {
