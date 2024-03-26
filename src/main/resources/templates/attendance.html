@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/470/470199.png">
+    <meta charset="UTF-8">
+    <title>EMS App</title>
+</head>
+
+<style>
+    body {
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+    }
+
+    nav {
+        background-color: #8B0000 !important; /* Change the navbar background color */
+    }
+
+    .navbar-brand {
+        color: whitesmoke !important;
+        font-size: 30px !important;
+        font-weight: bold;
+    }
+
+    .card {
+        box-shadow: rgba(14, 30, 37, 0.12) 1px 2px 2px 0px, rgba(14, 30, 37, 0.32) 1px 2px 2px 0px;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    .table-responsive {
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    }
+
+    th {
+        text-align: center;
+        font-size: 18px !important;
+    }
+
+    td {
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    label {
+        font-weight: 500;
+    }
+      .btn {
+        border-radius: 20px !important; /* Change the border radius of buttons */
+        font-size: 18px !important; /* Change the font size of buttons */
+    }
+
+    .btn-success {
+        background-color: #28a745 !important; /* Change the background color of success buttons */
+        color: white !important; /* Change the text color of success buttons */
+    }
+
+    .btn-primary {
+        background-color: #007bff !important; /* Change the background color of primary buttons */
+        color: white !important; /* Change the text color of primary buttons */
+    }
+
+    .btn-danger {
+        background-color: #dc3545 !important; /* Change the background color of danger buttons */
+        color: white !important; /* Change the text color of danger buttons */
+    }
+
+    .btn-dark {
+        background-color: #343a40 !important; /* Change the background color of dark buttons */
+        color: white !important; /* Change the text color of dark buttons */
+    }
+     .bg-warning {
+        background-color: #8B0000 !important; /* Dark red color */
+        color: #FFFFFF
+    }
+    .table-responsive {
+        max-width: 90%; /* Adjust the maximum width as needed */
+        margin: auto; /* Center the table */
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    }
+
+    .p-2 {
+        padding: 0.5rem !important; /* Reduce padding; adjust as needed */
+    }
+    .mt-4{
+    padding base: 0.5rem !important;
+    }
+</style>
+
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-light mb-5">
+    <div class="container">
+        <a class="navbar-brand text-bold" href="#"><i class="fa fa-align-center"
+                                                      aria-hidden="true">Deraclassic Ltd</i></a>
+    </div>
+</nav>
+
+<main>
+    <div class="container p-4">
+        <div class="head_section">
+            <div class="row row-cols-1 row-cols-md-4 g-3">
+                <div class="col">
+                    <a href="#exampleModalToggle1" data-bs-toggle="modal" role="button"
+                       style="text-decoration: none; color: white;">
+                        <div class="card h-100 bg-success">
+                            <div class="card-body">
+                                <h5 class="text-light"><i class="fa fa-plus"></i>Sign Attendance</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#exampleModalToggle2" data-bs-toggle="modal" role="button"
+                       style="text-decoration: none; color: white;">
+                        <div class="card h-100 bg-primary">
+                            <div class="card-body">
+                                <h5 class="text-light"><i class="fa fa-area-chart"
+                                                          aria-hidden="true"></i>Update Attendance</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#exampleModalToggle3" data-bs-toggle="modal" role="button"
+                       style="text-decoration: none; color: white;">
+                        <div class="card h-100 bg-danger">
+                            <div class="card-body">
+                                <h5 class="text-light"><i class="fa fa-trash"></i>Delete Attendance</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#deleteAllModal4" data-bs-toggle="modal" role="button"
+                       style="text-decoration: none; color: white;">
+                        <div class="card h-100 bg-dark">
+                            <div class="card-body">
+                                <h5 class="text-light"><i class="fa fa-warning"></i>Delete All Attendance</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="items_table mt-5 mb-4">
+            <div class="table-responsive p-2">
+                <h4 class="text-center p-2 mt-2" style="font-family:'Times New Roman', Times, serif; font-weight: bold;">Attendance Management System</h4>
+                <table class="table table-bordered table-hover mt-5">
+                    <thead class="bg-warning">
+
+                    <th>SI.NO</th>
+                    <th>A.ID</th>
+                    <th>Name</th>
+                    <th>Date Present</th>
+                    <th>Clock In Time</th>
+                    <th>Clock Out Time</th>
+
+                    </thead>
+                    <tbody>
+                    <tr th:each="attendance_record, index : ${attendance_records}">
+                        <td th:text="${index.index + 1}"></td>
+                        <td th:text="${attendance_record.id}"></td>
+                        <td th:text="${attendance_record.employeeName}"></td>
+                        <td th:text="${attendance_record.datePresent}"></td>
+                        <td th:text="${attendance_record.clockInTime}"></td>
+                        <td th:text="${attendance_record.clockOutTime}"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- model for create-->
+<div class="modal fade" id="exampleModalToggle1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div th:if="${success}" class="alert alert-success" role="alert">
+                    <p th:text="${success}"></p>
+                </div>
+                <form class="p-2" th:action="@{/createAttendance}" th:object="${attendance_record}" method="post">
+                    <center>
+                        <h4 style="font-family: 'Times New Roman', Times, serif;">Add Attendance</h4>
+                    </center>
+
+                    <div class="row p-2">
+                        <label class="p-1" for="employeeName">Employee Name</label>
+                        <input id="employeeName" type="text" th:field="*{employeeName}" class="form-control"
+                               placeholder="employee name" required>
+                    </div>
+
+                    <div class="row p-2">
+                        <label class="p-1" for="datePresent">Date Present</label>
+                        <input id="datePresent" type="date" th:field="*{datePresent}" class="form-control"
+                               placeholder="date present" required>
+                    </div>
+
+                    <div class="row p-2">
+                        <label class="p-1" for="clockOutTime">Clock In Time</label>
+                        <input id="clockInTime" type="time" th:field="*{clockInTime}" class="form-control"
+                               placeholder="clockInTime" required>
+                    </div>
+
+                    <div class="row p-2">
+                        <label class="p-1" for="clockInTime">Clock Out Time</label>
+                        <input id="clockOutTime" type="time" th:field="*{clockOutTime}" class="form-control"
+                               placeholder="clockOutTime" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success mt-3 mb-2">Add attendance Record</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<!-- model for update-->
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="p-2" th:action="@{/updateAttendance}" th:object="${attendance_record}" method="post">
+                    <!-- Check if errorMessage is present in the model and display it -->
+                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
+
+                    <center>
+                        <h4 style="font-family: 'Times New Roman', Times, serif;">Update Attendance</h4>
+                    </center>
+
+                    <div class="row p-1">
+                        <label class="p-1" for="id">Attendance ID</label>
+                        <input id="id" type="text" th:field="*{id}" class="form-control" placeholder="attendance id" required>
+                    </div>
+
+                    <div class="row p-1">
+                        <label class="p-1" for="employeeName">Employee Name</label>
+                        <input type="text" th:field="*{employeeName}" class="form-control"
+                               placeholder="employee name" required>
+                    </div>
+
+                    <div class="row p-1">
+                        <label class="p-1" for="datePresent">Date Present</label>
+                        <input type="date" th:field="*{datePresent}" class="form-control"
+                               placeholder="datePresent" required>
+                    </div>
+
+                    <div class="row p-1">
+                        <label class="p-1" for="clockInTime">Clock In Time</label>
+                        <input type="time" th:field="*{clockInTime}" class="form-control"
+                               placeholder="clock in Time" required>
+                    </div>
+
+                    <div class="row p-1">
+                        <label class="p-1" for="clockOutTime">Clock Out Time</label>
+                        <input type="time" th:field="*{clockOutTime}" class="form-control"
+                               placeholder="clock out Time" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3 mb-2">Update Attendance Record</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<!-- model for delete-->
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="p-2" th:action="@{/removeAttendance}" th:object="${attendance_record}" method="post">
+                    <!-- Alert message -->
+                    <div th:if="${alertMessage}" class="alert alert-danger">
+                        <p th:text="${alertMessage}"></p>
+                    </div>
+
+                    <center>
+                        <h4 style="font-family: 'Times New Roman', Times, serif;">Delete Record</h4>
+                    </center>
+
+                    <div class="row p-2">
+                        <label class="p-1" for="id">Attendance ID</label>
+                        <input type="text" th:field="*{id}" class="form-control" placeholder="attendance id" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger mt-3 mb-2">Delete Record</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Delete All employees-->
+<div class="modal fade" id="deleteAllModal4" aria-hidden="true" aria-labelledby="deleteAllModalLabe4" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="p-2" th:action="@{/remove/all}" th:object="${confirmationForm}" method="post">
+                    <center>
+                        <h4 style="font-family: 'Times New Roman', Times, serif;">Delete All Attendance Records</h4>
+                    </center>
+
+                    <div class="row p-2">
+                        <label class="p-3 text-warning" for="confirmation">Type 'Yes' For Confirmation</label>
+                        <input id="confirmation" type="text" th:field="*{confirmation}" class="form-control"
+                               placeholder="confirmation" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark mt-3 mb-2">Delete All Attendance Records</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="container text-center mt-4">
+    <a href="/" class="btn btn-primary">Back To Home</a>
+</footer>
+
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
