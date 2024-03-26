@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 @ControllerAdvice
-
 public class GlobalExceptionHandler {
     @ExceptionHandler(AttendanceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleAttendanceNotFoundException(final AttendanceNotFoundException e) {
